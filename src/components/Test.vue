@@ -6,7 +6,7 @@
     export default {
         data() {
             return {
-                value: 'ô chào  '
+                value: 'ô chào  các bạn'
             }
         }
     }

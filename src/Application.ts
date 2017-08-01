@@ -1,5 +1,5 @@
 import * as Vue from 'vue'
-import App from './App.vue'
+import App from './Application.vue'
 import {createRouter} from './router'
 
 export function createApp() {
