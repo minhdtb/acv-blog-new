@@ -9,18 +9,25 @@ import {View} from "./common/View";
 import * as path from 'path'
 
 import "reflect-metadata";
+import {Renderer} from "./Renderer";
 
 export class WebServer extends HttpServer {
 
     public static readonly controllers: any[] = [];
 
     private express: express.Express;
+    private renderer: Renderer;
 
-    constructor() {
+    constructor(renderer?: Renderer) {
         let application = express();
         super(application);
 
         this.express = application;
+
+        this.renderer = renderer;
+        if (this.renderer) {
+            this.renderer.initialize(this.express);
+        }
     }
 
     private async loadControllers() {
@@ -64,9 +71,11 @@ export class WebServer extends HttpServer {
 
         this.express.use(router);
 
-        this.express.get('*', (req, res) => {
-            res.send('bbbbb');
-        });
+        if (this.renderer) {
+            this.express.get('*', (req, res) => {
+                this.renderer.render(req, res);
+            });
+        }
     }
 
     private createRoute(route, instance, parameters) {

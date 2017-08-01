@@ -21,7 +21,6 @@ module.exports = {
             'vue-router': 'vue-router/dist/vue-router.js'
         }
     },
-    devtool: 'source-map',
     module: {
         rules: [
             {
