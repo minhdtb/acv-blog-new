@@ -1,17 +1,17 @@
 import * as Vue from 'vue'
 import * as Router from 'vue-router'
-import Test from './components/Test.vue';
+import Posts from './components/Posts.vue';
+import Tags from './components/Tags.vue';
 
 Vue.use(Router);
 
-const Bar = {template: '<div>chào các bạn</div>'};
-
 export function createRouter() {
     return new Router({
+        mode: 'history',
         routes: [
-            {path: '/foo', component: Test},
-            {path: '/bar', component: Bar},
-            {path: '/', redirect: '/foo'}
+            {path: '/posts', component: Posts},
+            {path: '/tags', component: Tags},
+            {path: '/', redirect: '/posts'}
         ]
     })
 }

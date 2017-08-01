@@ -61,9 +61,9 @@ module.exports = function setupDevServer(app, cb) {
 
     const serverCompiler = webpack(serverConfig);
     const mfs = new MFS();
-    
+
     serverCompiler.outputFileSystem = mfs;
-    serverCompiler.watch({}, (err, stats) => {
+    serverCompiler.watch('', (err, stats) => {
         if (err) throw err;
         stats = stats.toJson();
         if (stats.errors.length) return;

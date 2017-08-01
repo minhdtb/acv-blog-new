@@ -1,12 +1,12 @@
 <template>
-    <div>TEST NHA = {{value}}</div>
+    <div>{{value}}</div>
 </template>
 
 <script lang="ts">
     export default {
         data() {
             return {
-                value: 'ô chào  các bạn'
+                value: 'Posts'
             }
         }
     }
