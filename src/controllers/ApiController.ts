@@ -4,8 +4,15 @@ import {Get} from "../core/decorators/methods/Get";
 @Controller('api')
 class ApiController {
 
-    @Get('hello')
+    @Get('posts')
     public Test() {
-        return 'hello world';
+        return [
+            {
+                title: 'test1',
+            },
+            {
+                title: 'test2'
+            }
+        ];
     }
 }

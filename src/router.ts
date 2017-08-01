@@ -9,7 +9,7 @@ export function createRouter() {
     return new Router({
         mode: 'history',
         routes: [
-            {path: '/posts', component: Posts},
+            {path: '/posts/:page(\\d+)?', component: Posts},
             {path: '/tags', component: Tags},
             {path: '/', redirect: '/posts'}
         ]

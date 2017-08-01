@@ -54,16 +54,17 @@ export class ServerRenderer implements Renderer {
     }
 
     public initialize(express: express.Express) {
+        express.use('/public', serve(resolve('./public'), true));
+
         if (production) {
             express.use('/', serve(resolve('./dist'), true));
             express.use('/dist', serve(resolve('./dist'), true));
-            express.use('/public', serve(resolve('./public'), true));
 
             const bundle = require(resolve('./dist/vue-ssr-server-bundle.json'));
-            const clientManifest = require(resolve('./dist/vue-ssr-client-manifest.json'));
+            const manifest = require(resolve('./dist/vue-ssr-client-manifest.json'));
 
             this.renderer = ServerRenderer.createRenderer(bundle, {
-                clientManifest
+                manifest
             });
         } else {
             this.promise = require(resolve('./setup-dev-server'))(express, (bundle, options) => {
