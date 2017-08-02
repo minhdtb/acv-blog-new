@@ -35,14 +35,14 @@ export class ServerRenderer implements Renderer {
         let indexHTML;
 
         if (production) {
-            renderer = createBundleRenderer(ServerRenderer.getFile('../../dist/server-bundle.js'), {
+            renderer = createBundleRenderer(ServerRenderer.getFile('./dist/server-bundle.js'), {
                 cache: LRU({
                     max: 1000,
                     maxAge: 1000 * 60 * 15
                 })
             });
 
-            indexHTML = ServerRenderer.parseHtml(ServerRenderer.getFile('../../dist/index.html'));
+            indexHTML = ServerRenderer.parseHtml(ServerRenderer.getFile('./dist/index.html'));
         } else {
             require('../../../dev-server')(application, {
                 onHtmlChange: index => {
@@ -54,7 +54,8 @@ export class ServerRenderer implements Renderer {
             })
         }
 
-        application.use('/dist', express.static(resolve('../../dist')));
+        if (production)
+            application.use('/dist', express.static(resolve('./dist')));
 
         router.get('*', (req, res) => {
 
@@ -93,7 +94,7 @@ export class ServerRenderer implements Renderer {
 
 
             renderStream.on('error', err => {
-                if (err && err['code'] === '404') {
+                if (err && err['code'] == '404') {
                     res.status(404).end('404 | Page Not Found');
                     return
                 }

@@ -4,8 +4,8 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dev": "node build/server",
-    "start": "cross-env NODE_ENV=production node build/server",
+    "dev": "node build/server/server",
+    "start": "cross-env NODE_ENV=production node build/server/server",
     "build": "rimraf dist &&  npm run build:ts && npm run build:client && npm run build:server",
     "build:ts": "rimraf build && ntsc -p .",
     "build:client": "cross-env NODE_ENV=production webpack --config ./config/webpack.client.config.js --progress --hide-modules",
