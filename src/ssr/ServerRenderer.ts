@@ -15,6 +15,7 @@ export class ServerRenderer implements Renderer {
 
     private renderer: BundleRenderer;
     private promise: Promise<any>;
+    public router: express.Router;
 
     private static createRenderer(bundle, options): BundleRenderer {
         return createBundleRenderer(bundle, Object.assign(options, {
@@ -28,7 +29,7 @@ export class ServerRenderer implements Renderer {
         }));
     }
 
-    private _render(req: express.Request, res: express.Response) {
+    private render(req: express.Request, res: express.Response) {
         const context = {
             url: req.url
         };
@@ -53,12 +54,13 @@ export class ServerRenderer implements Renderer {
         });
     }
 
-    public initialize(express: express.Express) {
-        express.use('/public', serve(resolve('./public'), true));
+    public initialize(e: express.Express) {
+        this.router = express.Router();
+        this.router.get('/public', serve(resolve('./public'), true));
 
         if (production) {
-            express.use('/', serve(resolve('./dist'), true));
-            express.use('/dist', serve(resolve('./dist'), true));
+            this.router.get('/', serve(resolve('./dist'), true));
+            this.router.get('/dist', serve(resolve('./dist'), true));
 
             const bundle = require(resolve('./dist/vue-ssr-server-bundle.json'));
             const manifest = require(resolve('./dist/vue-ssr-client-manifest.json'));
@@ -67,19 +69,19 @@ export class ServerRenderer implements Renderer {
                 manifest
             });
         } else {
-            this.promise = require(resolve('./setup-dev-server'))(express, (bundle, options) => {
+            this.promise = require(resolve('./setup-dev-server'))(e, (bundle, options) => {
                 this.renderer = ServerRenderer.createRenderer(bundle, options)
             });
         }
-    }
 
-    public render(req: express.Request, res: express.Response): void {
-        if (production) {
-            this._render(req, res);
-        } else {
-            this.promise.then(() => {
-                this._render(req, res);
-            });
-        }
+        this.router.get('*', (req: express.Request, res: express.Response) => {
+            if (production) {
+                this.render(req, res);
+            } else {
+                this.promise.then(() => {
+                    this.render(req, res);
+                });
+            }
+        });
     }
 }

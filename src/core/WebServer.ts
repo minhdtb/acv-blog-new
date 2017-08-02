@@ -72,9 +72,7 @@ export class WebServer extends HttpServer {
         this.express.use(router);
 
         if (this.renderer) {
-            this.express.get('*', (req, res) => {
-                this.renderer.render(req, res);
-            });
+            this.express.use(this.renderer.router);
         }
     }
 
