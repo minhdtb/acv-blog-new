@@ -43,6 +43,7 @@ export class ServerRenderer implements Renderer {
             });
 
             indexHTML = ServerRenderer.parseHtml(ServerRenderer.getFile('./dist/index.html'));
+            application.use('/dist', express.static(resolve('./dist')));
         } else {
             require('../../../dev-server')(application, {
                 onHtmlChange: index => {
@@ -54,10 +55,9 @@ export class ServerRenderer implements Renderer {
             })
         }
 
-        if (production)
-            application.use('/dist', express.static(resolve('./dist')));
-
-        router.get('*', (req, res) => {
+        application.use('/public', serve(resolve('./public'), true));
+        
+        router.get('*', (req: express.Request, res: express.Response) => {
 
             if (!renderer || !indexHTML) {
                 return res.end('Waiting for webpack compilation... Refresh in a bit.')
@@ -92,14 +92,14 @@ export class ServerRenderer implements Renderer {
                 res.end(indexHTML.tail)
             });
 
-
-            renderStream.on('error', err => {
-                if (err && err['code'] == '404') {
+            renderStream.on('error', error => {
+                if (error && error['code'] === 404) {
                     res.status(404).end('404 | Page Not Found');
-                    return
+                    return;
                 }
 
-                res.status(500).end('Internal Error 500')
+                res.status(500).end('Internal Error 500');
+                console.error(error.stack);
             })
         });
 
