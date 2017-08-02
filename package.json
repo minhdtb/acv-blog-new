@@ -25,6 +25,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "friendly-errors-webpack-plugin": "^1.6.1",
+    "html-webpack-plugin": "^2.30.1",
     "memory-fs": "^0.4.1",
     "rimraf": "^2.6.1",
     "sw-precache-webpack-plugin": "^0.11.4",
