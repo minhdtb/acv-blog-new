@@ -6,7 +6,6 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const clientConfig = require('./config/webpack.client.config.js');
 const serverConfig = require('./config/webpack.server.config.js');
 
-
 module.exports = function setupDevServer(app, cbs) {
 
     /*
@@ -15,10 +14,7 @@ module.exports = function setupDevServer(app, cbs) {
     const clientBundleCompiler = webpack(modifiedWebpackConfig());
     const devMiddleware = webpackDevMiddleware(clientBundleCompiler, {
         publicPath: clientConfig.output.publicPath,
-        stats: {
-            colors: true,
-            chunks: false
-        }
+        noInfo: true
     });
 
     /*
@@ -68,7 +64,7 @@ function modifiedWebpackConfig() {
     clientConfig.output.filename = '[name].js';
     clientConfig.plugins.push(
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin()
     );
 
     return clientConfig

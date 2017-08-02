@@ -1,4 +1,5 @@
 const path = require('path');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const vueConfig = require('./vue-loader.config');
 
 module.exports = {
@@ -21,9 +22,10 @@ module.exports = {
     },
     // Where the output will be written to.
     output: {
-        path: path.resolve(__dirname, '../dist'),
-        publicPath: '/dist/',
-        filename: '[name].[chunkhash].js'
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[hash:8].js',
+        sourceMapFilename: '[name].[hash:8].map',
+        chunkFilename: '[id].[hash:8].js'
     },
 
     // Define what happens to each module
@@ -55,5 +57,8 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        new FriendlyErrorsPlugin(),
+    ]
 };

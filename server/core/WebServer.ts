@@ -7,6 +7,7 @@ import {HttpMethod} from "./common/HttpMethod";
 import {buildUrl} from "./common/Route";
 import {View} from "./common/View";
 import * as path from 'path'
+import * as compression from 'compression';
 
 import "reflect-metadata";
 import {Renderer} from "./Renderer";
@@ -22,6 +23,7 @@ export class WebServer extends HttpServer {
         let application = express();
         super(application);
         this.express = application;
+        this.express.use(compression());
         this.renderer = renderer;
     }
 
