@@ -22,7 +22,13 @@ const config = Object.assign({}, base, {
         }),
         // extract vendor chunks for better caching
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
+            name: 'vendor',
+            minChunks: function (module) {
+                return (
+                    /node_modules/.test(module.context) &&
+                    !/\.css$/.test(module.request)
+                )
+            }
         }),
         // generate output HTML
         new HTMLPlugin({
@@ -39,10 +45,7 @@ if (process.env.NODE_ENV === 'production') {
     // here we overwrite the loader config for <style lang="stylus">
     // so they are extracted.
     vueConfig.loaders = {
-        stylus: ExtractTextPlugin.extract({
-            loader: 'css-loader!stylus-loader',
-            fallbackLoader: 'vue-style-loader' // <- this is a dep of vue-loader
-        })
+        stylus: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'sass-loader']})
     };
 
     config.plugins.push(

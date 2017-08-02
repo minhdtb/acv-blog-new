@@ -6,7 +6,7 @@ module.exports = Object.assign({}, base, {
 
     devtool: false,
 
-    entry: './client/entry/server.js',
+    entry: './client/entry-server.ts',
 
     output: Object.assign({}, base.output, {
         filename: 'server-bundle.js',

@@ -9,20 +9,23 @@ import {View} from "./common/View";
 import * as path from 'path'
 
 import "reflect-metadata";
+import {Renderer} from "./Renderer";
 
 export class WebServer extends HttpServer {
 
     public static readonly controllers: any[] = [];
 
     private express: express.Express;
+    private renderer: Renderer;
 
-    constructor() {
+    constructor(renderer?: Renderer) {
         let application = express();
         super(application);
         this.express = application;
+        this.renderer = renderer;
     }
 
-    private async loadControllers() {
+    private async load() {
         try {
             const p = path.resolve(__dirname, '../controllers');
             const files = await new Promise<string[]>((resolve, reject) => {
@@ -62,6 +65,9 @@ export class WebServer extends HttpServer {
         }
 
         this.express.use(router);
+        if (this.renderer) {
+            this.express.use(this.renderer.getRouter(this.express));
+        }
     }
 
     private createRoute(route, instance, parameters) {
@@ -90,7 +96,7 @@ export class WebServer extends HttpServer {
 
     private initialize() {
         return new Promise((resolve, reject) => {
-            this.loadControllers()
+            this.load()
                 .then(() => {
                     this.registerRoutes();
                     resolve();

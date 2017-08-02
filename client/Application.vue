@@ -24,7 +24,7 @@
         </div>
     </div>
 </template>
-<style>
+<style lang="css">
     .fade-enter-active,
     .fade-leave-active {
         transition: all 0.2s ease;

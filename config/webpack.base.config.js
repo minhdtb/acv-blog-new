@@ -8,18 +8,17 @@ module.exports = {
     performance: {
         hints: false
     },
-
+    resolve: {
+        extensions: ['.js', '.ts', '.vue'],
+        alias: {
+            'vue': 'vue/dist/vue.js',
+            'vue-router': 'vue-router/dist/vue-router.js'
+        }
+    },
     // The default entry file and the dependencies used there
     entry: {
-        app: './client/entry/client.js',
-        vendor: [
-            'vue',
-            'vue-router',
-            'vuex',
-            'vuex-router-sync'
-        ]
+        app: './client/entry-client.ts'
     },
-
     // Where the output will be written to.
     output: {
         path: path.resolve(__dirname, '../dist'),
@@ -29,6 +28,7 @@ module.exports = {
 
     // Define what happens to each module
     module: {
+
         // noParse: /es6-promise\.js$/, // avoid webpack shimming process
         rules: [
             // All Vue files are loaded with the vue-loader
@@ -37,10 +37,12 @@ module.exports = {
                 loader: 'vue-loader',
                 options: vueConfig
             },
-            // All js is transpiled using babel.
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
+                test: /\.ts$/,
+                loader: 'ts-loader',
+                options: {
+                    appendTsSuffixTo: [/\.vue$/]
+                },
                 exclude: /node_modules/
             },
             // All image / static assets are processed with the url-loader
