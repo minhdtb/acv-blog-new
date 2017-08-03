@@ -4,6 +4,7 @@ import {createBundleRenderer, BundleRenderer} from 'vue-server-renderer';
 import * as LRU from 'lru-cache';
 import * as express from "express";
 import {Renderer} from "../core/Renderer";
+import {setupDevServer} from './DevServer';
 
 const serialize = require('serialize-javascript');
 const production = process.env.NODE_ENV === 'production';
@@ -41,11 +42,10 @@ export class ServerRenderer implements Renderer {
                     maxAge: 1000 * 60 * 15
                 })
             });
-
             indexHTML = ServerRenderer.parseHtml(ServerRenderer.getFile('./dist/index.html'));
             application.use('/dist', express.static(resolve('./dist')));
         } else {
-            require('../../../dev-server')(application, {
+            setupDevServer(application, {
                 onHtmlChange: index => {
                     indexHTML = ServerRenderer.parseHtml(index);
                 },
@@ -56,11 +56,11 @@ export class ServerRenderer implements Renderer {
         }
 
         application.use('/public', serve(resolve('./public'), true));
-        
+
         router.get('*', (req: express.Request, res: express.Response) => {
 
             if (!renderer || !indexHTML) {
-                return res.end('Waiting for webpack compilation... Refresh in a bit.')
+                return res.end('Waiting for webpack compilation...')
             }
 
             const context = {
