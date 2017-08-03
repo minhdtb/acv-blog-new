@@ -1,7 +1,7 @@
 import * as Vue from 'vue'
 import * as Router from 'vue-router'
-import Posts from './components/Posts.vue';
-import Tags from './components/Tags.vue';
+import Posts from '../pages/Posts.vue';
+import Tags from '../pages/Tags.vue';
 
 Vue.use(Router);
 

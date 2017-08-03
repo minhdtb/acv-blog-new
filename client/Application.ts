@@ -1,7 +1,7 @@
 import * as Vue from 'vue'
 import App from './Application.vue'
-import {createRouter} from './router'
-import {createStore} from "./store"
+import {createRouter} from './router/router'
+import {createStore} from "./store/store"
 
 export function createApp() {
 
@@ -10,6 +10,7 @@ export function createApp() {
 
     const app = new Vue({
         router,
+        store,
         render: h => h(App)
     });
 
