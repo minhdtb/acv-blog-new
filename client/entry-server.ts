@@ -1,20 +1,27 @@
 import {createApp} from './Application'
 
+interface VueComponent {
+    preFetch: Function;
+}
+
 export default context => {
-    return new Promise((resolve, reject) => {
-        const {app, router} = createApp();
+    const {app, router, store} = createApp();
 
-        router.push(context.url);
+    router.push(context.url);
 
-        router.onReady(() => {
-            const matchedComponents = router.getMatchedComponents();
+    const matchedComponents = router.getMatchedComponents() as [VueComponent];
 
-            if (!matchedComponents.length) {
-                return reject({code: 404})
-            }
+    if (!matchedComponents.length) {
+        return Promise.reject({code: 404})
+    }
 
-            resolve(app);
+    return Promise.all(matchedComponents.map(component => {
+        if (component.preFetch) {
+            return component.preFetch(store)
+        }
+    })).then(() => {
+        context.initialState = store.state;
 
-        }, reject)
-    })
+        return app;
+    });
 }

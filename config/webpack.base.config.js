@@ -13,7 +13,8 @@ module.exports = {
         extensions: ['.js', '.ts', '.vue'],
         alias: {
             'vue': 'vue/dist/vue.js',
-            'vue-router': 'vue-router/dist/vue-router.js'
+            'vue-router': 'vue-router/dist/vue-router.js',
+            'vuex': 'vuex/dist/vuex.js'
         }
     },
     // The default entry file and the dependencies used there

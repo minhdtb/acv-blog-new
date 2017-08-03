@@ -38,8 +38,4 @@
     .navbar-brand {
         padding-top: 10px;
     }
-
-    .logo {
-        width: 190px;
-    }
 </style>
