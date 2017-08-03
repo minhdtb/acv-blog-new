@@ -24,7 +24,7 @@ export default context => {
             })).then(() => {
                 context.initialState = store.state;
                 resolve(app);
-            });
+            }).catch(reject);
         }, reject);
     });
 }

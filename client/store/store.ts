@@ -17,9 +17,7 @@ export function createStore() {
                             commit('setPosts', response.data);
                             resolve();
                         })
-                        .catch(e => {
-                            reject(e);
-                        })
+                        .catch(reject)
                 })
             }
         },

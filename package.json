@@ -63,7 +63,6 @@
     "ntypescript": "^1.201706190042.1",
     "reflect-metadata": "^0.1.10",
     "serve-favicon": "^2.4.3",
-    "squel": "^5.11.1",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
     "vue-server-renderer": "^2.4.2",
