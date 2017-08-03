@@ -8,8 +8,10 @@ import {Data} from "../core/decorators/parameters/Data";
 class ApiController {
 
     @Get('posts')
-    public Test() {
-        return [];
+    private Test() {
+        return [{
+            title: 'aaaaaaaa'
+        }];
     }
 
     @Post('register')
@@ -19,5 +21,25 @@ class ApiController {
             username: username,
             password: password
         })
+    }
+
+    @Post('check')
+    private checkUser(@Data('username') username: string,
+                      @Data('password') password: string) {
+        return new Promise((resolve, reject) => {
+            User.findOne({username: username})
+                .then(user => {
+                    if (user) {
+                        user.comparePassword(password)
+                            .then(value => {
+                                value ? resolve(user) : resolve(null);
+                            })
+                            .catch(reject);
+                    } else {
+                        resolve(null);
+                    }
+                })
+                .catch(reject);
+        });
     }
 }
