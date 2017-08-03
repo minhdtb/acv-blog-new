@@ -8,9 +8,11 @@ import {buildUrl} from "./common/Route";
 import {View} from "./common/View";
 import * as path from 'path'
 import * as compression from 'compression';
+import * as helmet from 'helmet';
 
 import "reflect-metadata";
 import {Renderer} from "./Renderer";
+import * as bodyParser from "body-parser";
 
 export class WebServer extends HttpServer {
 
@@ -23,7 +25,10 @@ export class WebServer extends HttpServer {
         let application = express();
         super(application);
         this.express = application;
+        this.express.use(bodyParser.urlencoded({extended: true}));
+        this.express.use(bodyParser.json());
         this.express.use(compression());
+        this.express.use(helmet());
         this.renderer = renderer;
     }
 
@@ -85,7 +90,7 @@ export class WebServer extends HttpServer {
             }
 
             let result = route.callback.apply(instance, values);
-            if (result instanceof Promise) {
+            if (typeof result.then === 'function') {
                 result = await result;
             } else if (result instanceof View) {
                 return res.render(result.template, result.options);
