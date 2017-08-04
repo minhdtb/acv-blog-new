@@ -1,3 +1,8 @@
 .logo {
     width: 190px;
 }
+
+.btn-login {
+    margin-top: 8px;
+    float: right;
+}

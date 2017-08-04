@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" v-cloak>
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
@@ -15,6 +15,9 @@
                         <a>Tags</a>
                     </router-link>
                 </ul>
+                <router-link :to="{ path: '/login' }" class="btn btn-default btn-login">
+                    Login
+                </router-link>
             </div>
         </nav>
         <div class="container">
@@ -24,10 +27,17 @@
         </div>
     </div>
 </template>
+<script lang="ts">
+    export default {}
+</script>
 <style lang="css">
+    [v-cloak] {
+        display: none;
+    }
+
     .fade-enter-active,
     .fade-leave-active {
-        transition: all 0.2s ease;
+        transition: all 0.1s ease;
     }
 
     .fade-enter,
