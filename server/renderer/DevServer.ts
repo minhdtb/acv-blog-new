@@ -28,12 +28,12 @@ export function setupDevServer(app, cbs) {
     const outputPath = path.join(serverConfig.output.path, serverConfig.output.filename);
 
     serverBundleCompiler.outputFileSystem = mfs;
-    serverBundleCompiler.watch('', (err, stats) => {
-        if (err) throw err;
+    serverBundleCompiler.watch('', (error, stats) => {
+        if (error) throw error;
 
         stats = stats.toJson();
-        stats.errors.forEach(err => console.error(err));
-        stats.warnings.forEach(err => console.warn(err));
+        stats.errors.forEach(error => console.error(error));
+        stats.warnings.forEach(error => console.warn(error));
 
         cbs.onBundleChange(mfs.readFileSync(outputPath, 'utf-8'))
     });

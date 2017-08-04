@@ -13,7 +13,7 @@ export default context => {
         const matchedComponents = router.getMatchedComponents() as [VueComponent];
 
         if (!matchedComponents.length) {
-            return Promise.reject({code: 404})
+            return reject({code: 404});
         }
 
         router.onReady(() => {
