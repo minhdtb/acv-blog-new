@@ -1,9 +1,10 @@
 import {WebServer} from "./core/WebServer"
 import {ServerRenderer} from "./renderer/ServerRenderer";
-
-import * as mongoose from 'mongoose';
 import * as Q from 'q';
 
+const mongoose = require('mongoose');
+
+mongoose.Promise = Q.Promise;
 const uri = 'mongodb://localhost:27017/acv_blog';
 mongoose.connect(uri, {
     promiseLibrary: Q.Promise,

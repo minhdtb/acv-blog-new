@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 const SALT_WORK_FACTOR = 10;
 
-export interface IUser {
+interface IUser {
     username: string;
     password: string;
     email?: string;
@@ -12,10 +12,10 @@ export interface IUser {
     comparePassword(cp);
 }
 
-export interface IUserModel extends IUser, IModel, Document {
+interface IUserModel extends IUser, IModel, Document {
 }
 
-export const UserSchema: Schema = new Schema({
+const UserSchema: Schema = new Schema({
     username: {
         type: String,
         required: true

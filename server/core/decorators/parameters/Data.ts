@@ -1,7 +1,7 @@
 import {Request} from 'express';
 import {getParameters, Parameter} from "../../common/Parameter";
 
-export function Data<Function>(name: string): ParameterDecorator {
+export function Data<Function>(name?: string): ParameterDecorator {
     return (target: Object, method: string, index: number) => {
         let parameters = getParameters(target);
         if (!parameters[method]) {
@@ -19,6 +19,6 @@ export class DataParameter implements Parameter {
     }
 
     public getValue(req: Request) {
-        return req.body[this.name];
+        return this.name ? req.body[this.name] : req.body;
     }
 }

@@ -1,7 +1,6 @@
 import {Server} from "./Server";
 import * as http from "http";
 
-
 export abstract class HttpServer extends Server {
     private httpServer: http.Server;
     private port: Number;
