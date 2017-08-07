@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {getParameters, IParameter} from "../../common/Parameter";
+import {getParameters, IParameter, Parameter} from "../../common/Parameter";
 import {Request} from 'express';
 
 export function Query<Function>(name: string): ParameterDecorator {
@@ -9,17 +9,20 @@ export function Query<Function>(name: string): ParameterDecorator {
             parameters[method] = [];
         }
 
-        parameters[method].push(new QueryParameter(name, index));
+        let type = Reflect.getOwnMetadata('design:paramtypes', target, method)[index];
+        parameters[method].push(new QueryParameter(name, type, index));
     };
 }
 
-export class QueryParameter implements IParameter {
+export class QueryParameter extends Parameter implements IParameter {
 
     constructor(public name: string,
+                public type: Function,
                 public index: Number) {
+        super(type);
     }
 
     public getValue(req: Request) {
-        return req.query[this.name];
+        return this.getRawValue(req.query[this.name]);
     }
 }
