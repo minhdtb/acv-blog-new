@@ -1,5 +1,5 @@
 import {HttpMethod} from "./HttpMethod";
-import {getParameters, Parameter} from "./Parameter";
+import {getParameters, IParameter} from "./Parameter";
 import * as _ from "lodash";
 import {ParamParameter} from "../decorators/parameters/Param";
 
@@ -39,7 +39,7 @@ export function buildUrl(target, method: string, url: string): string {
     let baseUrl = nomalizeUrl(getBaseUrl(target)) || '/';
     let returnUrl = (baseUrl.length === 1 && url ? nomalizeUrl(url) : baseUrl + nomalizeUrl(url));
 
-    let params: Parameter[] = parameters[method] || [];
+    let params: IParameter[] = parameters[method] || [];
 
     _.each(_.sortBy(params, p => p.index), parameter => {
         if (parameter instanceof ParamParameter) {

@@ -1,5 +1,5 @@
 import {Request} from 'express';
-import {getParameters, Parameter} from "../../common/Parameter";
+import {getParameters, IParameter} from "../../common/Parameter";
 
 export function Param<Function>(name?: string): ParameterDecorator {
     return (target: Object, method: string, index: number) => {
@@ -12,7 +12,7 @@ export function Param<Function>(name?: string): ParameterDecorator {
     };
 }
 
-export class ParamParameter implements Parameter {
+export class ParamParameter implements IParameter {
 
     constructor(public name: string,
                 public index: Number) {

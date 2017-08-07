@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {getParameters, Parameter} from "../../common/Parameter";
+import {getParameters, IParameter} from "../../common/Parameter";
 import {Request} from 'express';
 
 export function Query<Function>(name: string): ParameterDecorator {
@@ -13,7 +13,7 @@ export function Query<Function>(name: string): ParameterDecorator {
     };
 }
 
-export class QueryParameter implements Parameter {
+export class QueryParameter implements IParameter {
 
     constructor(public name: string,
                 public index: Number) {
