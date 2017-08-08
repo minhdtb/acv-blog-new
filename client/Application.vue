@@ -15,7 +15,7 @@
                         <a>Tags</a>
                     </router-link>
                 </ul>
-                <router-link v-if="!isLogged()" :to="{ path: '/login' }" class="btn btn-default btn-login">
+                <router-link :to="{ path: '/login' }" class="btn btn-default btn-login">
                     Login
                 </router-link>
             </div>
@@ -35,8 +35,7 @@
     }
 
     export default {
-        methods: {
-        }
+        methods: {}
     } as ComponentOptions<ApplicationComponent>
 </script>
 <style lang="css">
