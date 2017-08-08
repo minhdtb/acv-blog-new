@@ -1,4 +1,4 @@
-import {createApp} from './Application'
+import {createApp} from './application'
 
 interface VueComponent {
     preFetch: Function;
@@ -15,6 +15,11 @@ export default context => {
         if (!matchedComponents.length) {
             return reject({code: 404});
         }
+
+        router.beforeEach((route, redirect, next) => {
+            console.log('1111111111');
+        });
+
 
         router.onReady(() => {
             Promise.all(matchedComponents.map(component => {

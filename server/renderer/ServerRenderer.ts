@@ -5,6 +5,8 @@ import * as LRU from 'lru-cache';
 import * as express from "express";
 import {Renderer} from "../core/Renderer";
 import {setupDevServer} from './DevServer';
+import * as jwt from "jsonwebtoken";
+import {JWT_SECRET} from "../controllers/ApiController";
 
 const serialize = require('serialize-javascript');
 const production = process.env.NODE_ENV === 'production';
@@ -65,7 +67,8 @@ export class ServerRenderer implements Renderer {
 
             const context = {
                 url: req.url,
-                initialState: false
+                cookies: req.cookies,
+                initialState: null
             };
 
             const renderStream = renderer.renderToStream(context);
@@ -82,6 +85,16 @@ export class ServerRenderer implements Renderer {
 
             renderStream.on('end', () => {
                 if (context.initialState) {
+                    if (req.cookies && req.cookies.token) {
+                        try {
+                            let user: any = jwt.verify(req.cookies.token, JWT_SECRET);
+                            user.token = req.cookies.token;
+                            context.initialState.user = user;
+                        } catch (err) {
+
+                        }
+                    }
+
                     res.write(
                         `<script>window.__INITIAL_STATE__=${
                             serialize(context.initialState, {isJSON: true})

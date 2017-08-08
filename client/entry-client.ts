@@ -1,4 +1,4 @@
-import {createApp} from './Application'
+import {createApp} from './application'
 
 const {app, router, store} = createApp();
 

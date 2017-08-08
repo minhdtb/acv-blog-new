@@ -3,7 +3,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const vueConfig = require('./vue-loader.config');
 
 module.exports = {
-    devtool: '#inline-source-map',
+    devtool: '#source-map',
     performance: {
         hints: false
     },
@@ -28,17 +28,25 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: vueConfig
+                test: /\.vue$/, loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        ts: 'ts-loader',
+                        tsx: 'babel-loader!ts-loader',
+                    }
+                }
             },
             {
-                test: /\.ts$/,
-                loader: 'ts-loader',
+                test: /\.ts$/, loader: 'ts-loader',
                 options: {
                     appendTsSuffixTo: [/\.vue$/]
-                },
-                exclude: /node_modules/
+                }
+            },
+            {
+                test: /\.tsx$/, loader: 'babel-loader!ts-loader',
+                options: {
+                    appendTsxSuffixTo: [/\.vue$/]
+                }
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,

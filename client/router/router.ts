@@ -1,8 +1,8 @@
 import * as Vue from 'vue'
 import * as Router from 'vue-router'
-import Posts from '../pages/Posts.vue';
-import Tags from '../pages/Tags.vue';
-import Login from '../pages/Login.vue';
+import Posts from '../pages/posts.vue';
+import Tags from '../pages/tags.vue';
+import Login from '../pages/login.vue';
 
 Vue.use(Router);
 

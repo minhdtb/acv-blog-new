@@ -15,7 +15,7 @@
                         <a>Tags</a>
                     </router-link>
                 </ul>
-                <router-link :to="{ path: '/login' }" class="btn btn-default btn-login">
+                <router-link v-if="!isLogged()" :to="{ path: '/login' }" class="btn btn-default btn-login">
                     Login
                 </router-link>
             </div>
@@ -28,7 +28,16 @@
     </div>
 </template>
 <script lang="ts">
-    export default {}
+    import * as Vue from "vue";
+    import {ComponentOptions} from "vue/types/options";
+
+    interface ApplicationComponent extends Vue {
+    }
+
+    export default {
+        methods: {
+        }
+    } as ComponentOptions<ApplicationComponent>
 </script>
 <style lang="css">
     [v-cloak] {

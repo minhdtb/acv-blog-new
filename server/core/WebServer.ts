@@ -12,6 +12,7 @@ import * as helmet from 'helmet';
 import "reflect-metadata";
 import {Renderer} from "./Renderer";
 import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
 
 export class WebServer extends HttpServer {
 
@@ -27,7 +28,8 @@ export class WebServer extends HttpServer {
         /* default routes */
         this.express.use(bodyParser.urlencoded({extended: true}));
         this.express.use(bodyParser.json());
-        this.express.use(compression());
+        this.express.use(cookieParser());
+        this.express.use(compression({threshold: 0}));
         this.express.use(helmet());
         /* set renderer */
         this.renderer = renderer;

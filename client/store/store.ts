@@ -7,14 +7,19 @@ Vue.use(Vuex);
 export function createStore() {
     return new Vuex.Store({
         state: {
-            posts: []
+            posts: [],
+            user: {
+                id: null,
+                username: null,
+                token: null
+            }
         },
         actions: {
-            getPosts: ({commit}) => {
+            GET_POST_LIST: ({commit}) => {
                 return new Promise((resolve, reject) => {
                     axios.get('http://localhost:3000/api/posts')
                         .then(response => {
-                            commit('setPosts', response.data);
+                            commit('SET_POST_LIST', response.data);
                             resolve();
                         })
                         .catch(reject)
@@ -22,8 +27,11 @@ export function createStore() {
             }
         },
         mutations: {
-            setPosts(state, posts) {
+            SET_POST_LIST(state, posts) {
                 state.posts = posts;
+            },
+            SET_USER(state, user) {
+                state.user = user;
             }
         }
     });

@@ -6,25 +6,22 @@
                 <h1>Login</h1>
                 <hr>
                 <form v-on:submit.prevent="submit">
-                    <div v-show="error" class="alert alert-danger" role="alert">
-                        <strong>Oh snap!</strong> {{ error }}
-                    </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input v-validate.disabled  data-vv-rules="required|email" type="text" class="form-control"
-                               v-model="body.email" name="email" id="email" placeholder="sample@email.com"
-                               data-vv-as="email">
-                        <span v-show="errors.has('email')" class="alert-danger">{{ errors.first('email') }}</span>
+                        <label for="username">Username</label>
+                        <input v-validate.disabled data-vv-rules="required" class="form-control"
+                               v-model="username" name="username" id="username" placeholder="Username"
+                               data-vv-as="username">
+                        <span v-show="errors.has('username')" class="alert-danger">{{ errors.first('username') }}</span>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input v-validate.disabled data-vv-rules="required" name="password" type="password"
-                               class="form-control" v-model="body.password" id="password" placeholder="********">
+                               class="form-control" v-model="password" id="password" placeholder="********">
                         <span v-show="errors.has('password')" class="alert-danger">{{ errors.first('password') }}</span>
                     </div>
-                    <button class="btn btn-primary" type="submit">Login</button>
+                    <button class="btn btn-primary">Login</button>
                     <hr>
-                    <a href="/forgotpassword">Forgot your password?</a>
+                    <a href="#">Forgot your password?</a>
                 </form>
             </div>
             <div class="col-md-4"></div>
@@ -34,32 +31,44 @@
 
 <script lang="ts">
     import Vue, {ComponentOptions} from 'vue'
+    import {login} from "../components/authen";
 
     interface LoginComponent extends Vue {
-        validator: any;
+        $cookie: any;
         errors: any;
-        body: any;
+        username: string;
+        password: string
     }
 
     export default {
         data() {
             return {
                 error: null,
-                body: {
-                    email: null,
-                    password: null
-                }
+                username: null,
+                password: null
             };
+        },
+        created() {
+            if (this.$store.state.user.id) {
+                this.$router.push('/');
+            }
         },
         methods: {
             submit() {
-                console.log('aaaaaa');
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
                     const credentials = {
-                        email: this.body.email,
-                        password: this.body.password
+                        username: this.username,
+                        password: this.password
                     };
+
+                    login(credentials).then(user => {
+                        if (user && user.token) {
+                            this.$cookie.set('token', user.token);
+                            this.$store.commit('SET_USER', user);
+                            this.$router.push('/');
+                        }
+                    });
                 }
             }
         }

@@ -1,35 +1,29 @@
-<template lang="html">
-
-                <ul>
-                    <li v-for="(post, index) in posts">
-                        <span>{{ post.title }}</span>
-
-                    </li>
-                </ul>
-
-
+<template>
+    <ul>
+        <li v-for="(post, index) in posts">
+            <span>{{ post.title }}</span>
+        </li>
+    </ul>
 </template>
-
 <script lang="ts">
     import Vue, {ComponentOptions} from 'vue'
 
     interface PostsComponent extends Vue {
     }
 
-    function getPosts(store) {
-        return store.dispatch('getPosts');
+    function getPostList(store) {
+        return store.dispatch('GET_POST_LIST');
     }
 
     export default {
-        name: 'posts',
         computed: {
             posts() {
                 return this.$store.state.posts
             }
         },
-        preFetch: getPosts,
+        preFetch: getPostList,
         beforeMount() {
-            return getPosts(this.$store)
+            return getPostList(this.$store)
         }
     } as ComponentOptions<PostsComponent>
 </script>
