@@ -5,12 +5,7 @@
         </li>
     </ul>
 </template>
-<script lang="ts">
-    import Vue, {ComponentOptions} from 'vue'
-
-    interface PostsComponent extends Vue {
-    }
-
+<script lang="js">
     function getPostList(store) {
         return store.dispatch('GET_POST_LIST');
     }
@@ -25,5 +20,5 @@
         beforeMount() {
             return getPostList(this.$store)
         }
-    } as ComponentOptions<PostsComponent>
+    }
 </script>

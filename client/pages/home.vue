@@ -32,13 +32,7 @@
         </div>
     </div>
 </template>
-<script lang="ts">
-    import Vue, {ComponentOptions} from 'vue'
-
-    interface HomeComponent extends Vue {
-        $cookie: any;
-    }
-
+<script lang="js">
     export default {
         methods: {
             is_auth() {
@@ -51,7 +45,7 @@
                 this.$router.push('/');
             }
         }
-    } as ComponentOptions<HomeComponent>
+    }
 </script>
 <style lang="css">
     .fade-enter-active,

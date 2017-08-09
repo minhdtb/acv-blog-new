@@ -29,16 +29,8 @@
     </div>
 </template>
 
-<script lang="ts">
-    import Vue, {ComponentOptions} from 'vue'
+<script lang="js">
     import {login} from "../components/authen";
-
-    interface LoginComponent extends Vue {
-        $cookie: any;
-        errors: any;
-        username: string;
-        password: string
-    }
 
     export default {
         data() {
@@ -72,7 +64,7 @@
                 }
             }
         }
-    } as ComponentOptions<LoginComponent>
+    }
 </script>
 
 <style lang="css">
