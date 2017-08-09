@@ -16,11 +16,6 @@ export default context => {
             return reject({code: 404});
         }
 
-        router.beforeEach((route, redirect, next) => {
-            console.log('1111111111');
-        });
-
-
         router.onReady(() => {
             Promise.all(matchedComponents.map(component => {
                 if (component.preFetch) {
